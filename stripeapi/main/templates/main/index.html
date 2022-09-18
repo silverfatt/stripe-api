@@ -1,0 +1,16 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Buy Item {{item.id}}</title>
+</head>
+<body>
+<h1>{{item.name}}</h1>
+<p>{{item.description}}</p>
+<p>{{item.price}}</p>
+<button id="buy-button" data-id="{{item.id}}" data-pk="{{key}}">Buy</button>
+<script src="https://js.stripe.com/v3/"></script>
+<script src="../../static/js/script.js"></script>
+</body>
+</html>
