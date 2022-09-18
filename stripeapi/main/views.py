@@ -8,11 +8,14 @@ from django.db.models import ObjectDoesNotExist
 stripe.api_key = settings.STRIPE_SECRET_KEY
 public_key = settings.STRIPE_PUBLIC_KEY
 
+
 def buy(request, id):
     if request.method == 'GET':
         price = None
         URL = "http://127.0.0.0:8000/"
         item_to_sell = Item.objects.get(pk=id)
+
+        # Получение id цены на товар
         products = stripe.Product.list()
         for product in products['data']:
             if product['name'] == item_to_sell.name and product['active']:
@@ -22,7 +25,9 @@ def buy(request, id):
                     if p['product'] == id:
                         price = p['id']
         if not price:
-            raise Http404()
+            raise Http404
+
+        # Получение идентификатора сессии
         checkout_session = stripe.checkout.Session.create(
             line_items=[
                 {
