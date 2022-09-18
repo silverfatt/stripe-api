@@ -50,4 +50,4 @@ def item(request, id):
             item_to_sell = Item.objects.get(pk=id)
         except ObjectDoesNotExist:
             raise Http404
-        return render(request, 'main\\index.html', {'item': item_to_sell, 'key': public_key})
+        return render(request, 'main/index.html', {'item': item_to_sell, 'key': public_key})
