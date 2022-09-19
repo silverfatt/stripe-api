@@ -1,9 +1,11 @@
 var buyButton = document.getElementById('buy-button');
 var stripe = Stripe(buyButton.getAttribute('data-pk'));
 buyButton.addEventListener('click', function () {
-    var id = buyButton.getAttribute('data-id')
-    url = '/buy/' + id
-    fetch(url, {method: 'GET'}).then(function (response) {
+    fetch('/buy/' + buyButton.getAttribute('data-type') + '/' + buyButton.getAttribute('data-id'),
+        {
+            method: 'GET',
+            type: buyButton.getAttribute('data-type'),
+        }).then(function (response) {
         return response.json();
     }).then(function (data) {
         console.log(data);

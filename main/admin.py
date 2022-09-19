@@ -1,6 +1,6 @@
 import django.db.models
 from django.contrib import admin
-from .models import Item
+from .models import Item, Order
 import stripe
 
 @admin.action(description='Добавить продукты в магазин')
@@ -16,4 +16,5 @@ class ProductAdmin(admin.ModelAdmin):
     actions = [add_product]
 
 admin.site.register(Item,ProductAdmin)
+admin.site.register(Order)
 # Register your models here.

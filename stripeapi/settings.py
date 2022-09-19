@@ -126,5 +126,8 @@ STATICFILES_DIRS = [
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-STRIPE_PUBLIC_KEY = "pk_test_51LjNZsJQxvealwl42nqWPatZmILrezDef84c6vrEREvLIR6AbrVLjKSpho2riwKWQFkwqq5VSYpWfDPJh3GYqMgO00EGQo8EAY"
-STRIPE_SECRET_KEY = "sk_test_51LjNZsJQxvealwl4dAsH0T6Ixvi4Y0WwmiSkVpiTVtb36SYXTkNwDjJJHWdmr8xO981evOIqBegLLSzSLbZADwdc00ensLfpTs"
+# предварительно установить их через консоль
+STRIPE_PUBLIC_KEY = os.environ.get("pk")
+STRIPE_SECRET_KEY = os.environ.get("sk")
+#pk_test_51LjNZsJQxvealwl42nqWPatZmILrezDef84c6vrEREvLIR6AbrVLjKSpho2riwKWQFkwqq5VSYpWfDPJh3GYqMgO00EGQo8EAY
+#sk_test_51LjNZsJQxvealwl4dAsH0T6Ixvi4Y0WwmiSkVpiTVtb36SYXTkNwDjJJHWdmr8xO981evOIqBegLLSzSLbZADwdc00ensLfpTs

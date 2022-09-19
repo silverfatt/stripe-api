@@ -1,53 +1,51 @@
+from django.core.handlers.wsgi import WSGIRequest
 from django.shortcuts import render, Http404
 from django.http import JsonResponse
 import stripe
 from stripeapi import settings
-from .models import Item
+from .models import Item, Order
 from django.db.models import ObjectDoesNotExist
+from .checkers import check_item_if_exist, check_order_if_exist
+from .functions import *
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 public_key = settings.STRIPE_PUBLIC_KEY
 
 
-def buy(request, id):
-    if request.method == 'GET':
-        price = None
-        URL = "http://127.0.0.0:8000/"
-        item_to_sell = Item.objects.get(pk=id)
 
-        # Получение id цены на товар
-        products = stripe.Product.list()
-        for product in products['data']:
-            if product['name'] == item_to_sell.name and product['active']:
-                id = product['id']
-                prices = stripe.Price.list()
-                for p in prices['data']:
-                    if p['product'] == id:
-                        price = p['id']
+
+def buy_item(request, id):
+    if request.method == 'GET':
+        item_to_sell = Item.objects.get(pk=id)
+        price = check_item_if_exist(item_to_sell)
         if not price:
             raise Http404
-
-        # Получение идентификатора сессии
-        checkout_session = stripe.checkout.Session.create(
-            line_items=[
-                {
-                    'price': price,
-                    'quantity': 1,
-                },
-            ],
-            mode='payment',
-            success_url=URL + 'buy/' + str(id),
-            cancel_url=URL + 'buy/' + str(id),
-        )
-        response = {}
-        response['session_id'] = checkout_session.id
-        return JsonResponse(response)
+        line_items = [{'price': price, 'quantity': 1}]
+        return JsonResponse(get_session_id_response(line_items, id))
 
 
-def item(request, id):
+def buy_order(request, id):
+    if request.method == 'GET':
+        order_to_sell = Order.objects.get(pk=id).order
+        all_prices = check_order_if_exist(order_to_sell)
+        if all_prices == []:
+            raise Http404
+        return JsonResponse(get_session_id_response(make_order_dict(order_to_sell, all_prices), id))
+
+
+def item(request: WSGIRequest, id):
     if request.method == 'GET':
         try:
             item_to_sell = Item.objects.get(pk=id)
         except ObjectDoesNotExist:
             raise Http404
-        return render(request, 'main/index.html', {'item': item_to_sell, 'key': public_key})
+        return render(request, 'main/index.html', {'item': item_to_sell, 'key': public_key, 'type': 'item'})
+
+
+def order(request, id):
+    if request.method == 'GET':
+        try:
+            order_to_sell = make_items_dict(id)
+        except ObjectDoesNotExist:
+            raise Http404
+        return render(request, 'main/index.html', {'item': order_to_sell, 'key': public_key, 'type': 'order'})
