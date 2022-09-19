@@ -11,27 +11,28 @@ stripe.api_key = os.environ.get('sk')
 public_key = os.environ.get('pk')
 
 
-
-def buy_item(request, id):
+def buy_item(request, id):  # /buy/item/id
     if request.method == 'GET':
         item_to_sell = Item.objects.get(pk=id)
         price = check_item_if_exist(item_to_sell)
+        # Если цены на товар не существует - ошибка
         if not price:
             raise Http404
         line_items = [{'price': price, 'quantity': 1}]
         return JsonResponse(get_session_id_response(line_items, id))
 
 
-def buy_order(request, id):
+def buy_order(request, id):  # #/buy/order/id
     if request.method == 'GET':
         order_to_sell = Order.objects.get(pk=id).order
         all_prices = check_order_if_exist(order_to_sell)
-        if all_prices == []:
+        # Если цен получено меньше, чем товаров в заказе - ошибка
+        if len(all_prices) < len(order_to_sell):
             raise Http404
-        return JsonResponse(get_session_id_response(make_order_dict(order_to_sell, all_prices), id))
+        return JsonResponse(get_session_id_response(make_order_list(order_to_sell, all_prices), id))
 
 
-def item(request: WSGIRequest, id):
+def item(request: WSGIRequest, id):  # /item/id
     if request.method == 'GET':
         try:
             item_to_sell = Item.objects.get(pk=id)
@@ -41,7 +42,7 @@ def item(request: WSGIRequest, id):
         return render(request, 'main/index.html', {'item': item_to_sell, 'key': public_key, 'type': 'item'})
 
 
-def order(request, id):
+def order(request, id):  # /order/id
     if request.method == 'GET':
         try:
             order_to_sell = make_items_dict(id)

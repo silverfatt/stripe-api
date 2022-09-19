@@ -4,7 +4,6 @@ buyButton.addEventListener('click', function () {
     fetch('/buy/' + buyButton.getAttribute('data-type') + '/' + buyButton.getAttribute('data-id'),
         {
             method: 'GET',
-            type: buyButton.getAttribute('data-type'),
         }).then(function (response) {
         return response.json();
     }).then(function (data) {
