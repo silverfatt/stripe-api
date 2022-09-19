@@ -1,16 +1,14 @@
+import os
+
 from django.core.handlers.wsgi import WSGIRequest
 from django.shortcuts import render, Http404
 from django.http import JsonResponse
-import stripe
-from stripeapi import settings
-from .models import Item, Order
 from django.db.models import ObjectDoesNotExist
 from .checkers import check_item_if_exist, check_order_if_exist
 from .functions import *
 
-stripe.api_key = settings.STRIPE_SECRET_KEY
-public_key = settings.STRIPE_PUBLIC_KEY
-
+stripe.api_key = os.environ.get('sk')
+public_key = os.environ.get('pk')
 
 
 
@@ -39,6 +37,7 @@ def item(request: WSGIRequest, id):
             item_to_sell = Item.objects.get(pk=id)
         except ObjectDoesNotExist:
             raise Http404
+
         return render(request, 'main/index.html', {'item': item_to_sell, 'key': public_key, 'type': 'item'})
 
 
@@ -48,4 +47,5 @@ def order(request, id):
             order_to_sell = make_items_dict(id)
         except ObjectDoesNotExist:
             raise Http404
+
         return render(request, 'main/index.html', {'item': order_to_sell, 'key': public_key, 'type': 'order'})
