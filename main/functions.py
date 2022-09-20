@@ -18,35 +18,34 @@ def make_order_list(order_to_sell: Dict, all_prices: List):
     return line_items
 
 
-def make_items_dict(id: int):
+def make_items_dict(id_: int):
     """
     Подготавливает словарь с информацией о заказе (имя, цена, id)
     для его передачи на фронт
     """
     items_to_sell = []
-    order = Order.objects.get(pk=id)
+    order = Order.objects.get(pk=id_)
     for o in order.order:
         items_to_sell.append((o['id'], o['amount']))
-    order_to_sell = {'name': f"Order {id}", 'price': 0, 'id': order.id, 'description': ""}
+    order_to_sell = {'name': f"Order {id_}", 'price': 0, 'id': order.id, 'description': ""}
     for i in items_to_sell:
         item = Item.objects.get(pk=i[0])
-        order_to_sell['description']  += f"{i[1]}x {item.name}     "
+        order_to_sell['description'] += f"{i[1]}x {item.name}     "
         order_to_sell['price'] += item.price
     return order_to_sell
 
 
-def get_session_id_response(line_items, id):
+def get_session_id_response(line_items, id_):
     """
     Получает id сессии по id заказа/товару и списку предметов
     (в случае покупки предмета, длина line_items - 1)
     """
-    URL = "http://127.0.0.0:8000/"
+    url = "http://127.0.0.0:8000/"
     checkout_session = stripe.checkout.Session.create(
         line_items=line_items,
         mode='payment',
-        success_url=URL + 'buy/item/' + str(id),
-        cancel_url=URL + 'buy/item/' + str(id),
+        success_url=url + 'buy/item/' + str(id_),
+        cancel_url=url + 'buy/item/' + str(id_),
     )
-    response = {}
-    response['session_id'] = checkout_session.id
+    response = {'session_id': checkout_session.id}
     return response

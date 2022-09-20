@@ -1,8 +1,5 @@
-import django
-from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 from .validators import JSONSchemaValidator, SCHEMA
-
 
 
 class Item(models.Model):
@@ -19,7 +16,7 @@ class Item(models.Model):
 
 
 class Order(models.Model):
-    order = models.JSONField(default=dict, blank=True,
+    order = models.JSONField(default=dict, blank=False,
                              validators=[JSONSchemaValidator(limit_value=SCHEMA)])
 
     class Meta:
@@ -28,4 +25,3 @@ class Order(models.Model):
 
     def __str__(self):
         return f"Order {self.id}"
-
