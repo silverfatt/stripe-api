@@ -69,7 +69,7 @@
 
 # Деплой
 
-Развёрнутый API с четырьмя `Item` (id:1,2,3,4) и одним `Order` (id:1): https://django-stripeapi-test.herokuapp.com/
+Развёрнутый API с четырьмя `Item` (id:1,2,3,4) и одним `Order` (id:1): https://django-stripeapi-test.herokuapp.com/item/1
 
 
 
