@@ -23,7 +23,7 @@
 
 ## Без использования docker
 
-Устанавливаем модули: `pip install -r requirements.txt`
+Устанавливаем пакеты: `pip install -r requirements.txt`
 
 Подготавливаем БД: `python manage.py makemigrations` `python manage.py migrate`
 
