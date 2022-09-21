@@ -91,6 +91,7 @@ WSGI_APPLICATION = "stripeapi.wsgi.application"
 #     }
 # }
 
+
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -113,7 +114,6 @@ DATABASES = {
         'PORT': os.environ.get('POSTGRES_PORT'),
     }
 }
-print(DATABASES)
 
 
 # Password validation
