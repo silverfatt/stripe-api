@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-a1b=l)%n_++&a-g79(km@!8%vdu2x)4yr^+sb0@41&ayx5gv80"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -84,10 +84,21 @@ WSGI_APPLICATION = "stripeapi.wsgi.application"
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 # dev db
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.sqlite3",
+#         "NAME": BASE_DIR / "db.sqlite3",
+#     }
+# }
+
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'd6umqa1f7rf0fd',
+        'USER': 'gpylresyzizyvm',
+        'PASSWORD': '15c9a66a24e9db247a222566f55e03953b166e96285b63310d92ab33f111a551',
+        'HOST': 'ec2-99-81-137-11.eu-west-1.compute.amazonaws.com',
+        'PORT': '5432'
     }
 }
 
