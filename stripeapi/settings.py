@@ -83,24 +83,15 @@ WSGI_APPLICATION = "stripeapi.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-# dev db
-# DATABASES = {
-#     "default": {
-#         "ENGINE": "django.db.backends.sqlite3",
-#         "NAME": BASE_DIR / "db.sqlite3",
-#     }
-# }
-
+dev db
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'd6umqa1f7rf0fd',
-        'USER': 'gpylresyzizyvm',
-        'PASSWORD': '15c9a66a24e9db247a222566f55e03953b166e96285b63310d92ab33f111a551',
-        'HOST': 'ec2-99-81-137-11.eu-west-1.compute.amazonaws.com',
-        'PORT': '5432'
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
     }
 }
+
+
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
