@@ -67,9 +67,6 @@
 ![image](https://user-images.githubusercontent.com/90452368/191331025-8c5a459d-87ac-424f-8d38-93fc7978f1d2.png)
 
 
-# Деплой
-
-Развёрнутый API с четырьмя `Item` (id:1,2,3,4) и одним `Order` (id:1): https://django-stripeapi-test.herokuapp.com/item/1
 
 
 
